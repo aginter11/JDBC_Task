@@ -1,6 +1,7 @@
 package jm.task.core.jdbc.dao;
 
 import jm.task.core.jdbc.model.User;
+import jm.task.core.jdbc.util.DeleteOrNot;
 import jm.task.core.jdbc.util.Util;
 
 import java.sql.*;
@@ -46,16 +47,21 @@ public class UserDaoJDBCImpl implements UserDao {
         String sqlSaveUser = "INSERT INTO users2 (name, lastname, age) VALUES(?, ?, ?)";
 
         try (Connection connection = Util.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(sqlSaveUser)) {
+
+            connection.setAutoCommit(false);
             preparedStatement.setString(1, name);
             preparedStatement.setString(2, lastName);
             preparedStatement.setInt(3, age);
+
             preparedStatement.executeUpdate();
+            connection.commit();
             System.out.println("User с именем " + name + " добавлен в базу данных");
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
     }
+
 
     public void removeUserById(long id) {
 
@@ -99,8 +105,19 @@ public class UserDaoJDBCImpl implements UserDao {
         String sqlClean = "DELETE FROM users2";
 
         try (Connection connection = Util.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(sqlClean)) {
+            connection.setAutoCommit(false);
             preparedStatement.executeUpdate();
-        } catch (SQLException e) {
+            boolean ok = DeleteOrNot.delete();
+            if (ok) {
+                connection.commit();
+                System.out.println("Все пользователи удалены");
+            } else {
+                connection.rollback();
+
+            }
+
+        } catch (
+                SQLException e) {
             e.printStackTrace();
         }
 
