@@ -18,6 +18,6 @@ public class Main {
         us.saveUser("Ivan", "Ivanov", (byte) 22);
         us.saveUser("Petr", "Petrov", (byte) 33);
         us.saveUser("Igor", "Sidorov", (byte) 55);
-        us.cleanUsersTable();
+    //    us.cleanUsersTable();
     }
 }
