@@ -55,7 +55,7 @@ public class UserDaoJDBCImpl implements UserDao {
             connection.setAutoCommit(false);
             preparedStatement.setString(1, name);
             preparedStatement.setString(2, lastName);
-            preparedStatement.setInt(4, age);
+            preparedStatement.setInt(3, age);
 
             preparedStatement.executeUpdate();
             connection.commit();
@@ -114,16 +114,16 @@ public class UserDaoJDBCImpl implements UserDao {
         String sqlClean = "DELETE FROM users2";
 
         try (Connection connection = Util.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(sqlClean)) {
-            connection.setAutoCommit(false);
+//            connection.setAutoCommit(false);
             preparedStatement.executeUpdate();
-            boolean ok = DeleteOrNot.delete();
-            if (ok) {
-                connection.commit();
-                System.out.println("Все пользователи удалены");
-            } else {
-                connection.rollback();
-
-            }
+//            boolean ok = DeleteOrNot.delete();
+//            if (ok) {
+//                connection.commit();
+//                System.out.println("Все пользователи удалены");
+//            } else {
+//                connection.rollback();
+//
+//            }
 
         } catch (
                 SQLException e) {
